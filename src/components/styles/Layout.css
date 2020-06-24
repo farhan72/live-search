@@ -1,0 +1,38 @@
+.heading {
+  font-size: 30px;
+  padding: 16px 0;
+  color: #444444;
+  text-align: center;
+}
+
+.container .input-group-text:hover {
+  color: #000000;
+  cursor: pointer;
+}
+
+.search-loading {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 99999;
+  margin: auto;
+}
+
+.show {
+  display: block;
+}
+.hide {
+  display: none;
+}
+
+.results-container {
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+}
+
+.results-container div {
+  margin: 4px;
+}
