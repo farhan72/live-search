@@ -22,14 +22,13 @@ export default class LayoutComponent extends Component {
     fetchSearchResult = async (limit, offset, query) => {
         const url = new URL(process.env.REACT_APP_BASE_URL_PIXABAY);
         const param = {
+            key: process.env.REACT_APP_API_KEY_PIXABAY,
             per_page: limit,
             page: offset,
             q: query,
-            order: 'latest',
-            key: process.env.REACT_APP_API_KEY_PIXABAY
+            order: 'latest'
         }
         Object.keys(param).map(key => url.searchParams.append(key, param[key]));
-        let API_URL = url.href;
         if (this.cancel) {
             this.cancel.cancel();
         }
@@ -37,7 +36,7 @@ export default class LayoutComponent extends Component {
         this.cancel = axios.CancelToken.source();
 
         this.setState({ loading: true });
-        await axios.get(API_URL, {
+        await axios.get(url, {
             cancelToken: this.cancel.token
         }).then(res => {
             this.setState({
