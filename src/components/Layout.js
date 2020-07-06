@@ -20,12 +20,16 @@ export default class LayoutComponent extends Component {
     }
 
     fetchSearchResult = async (limit, offset, query) => {
-        const maxResults = `&per_page=${limit}`;
-        const page = `&page=${offset}`;
-        const querySearch = query ? `&q=${query}` : '';
-        const sort = `&order=latest`;
-        let API_URL = process.env.REACT_APP_BASE_URL_PIXABAY + '?key=' + process.env.REACT_APP_API_KEY_PIXABAY;
-        API_URL += sort + maxResults + page + querySearch;
+        const url = new URL(process.env.REACT_APP_BASE_URL_PIXABAY);
+        const param = {
+            per_page: limit,
+            page: offset,
+            q: query,
+            order: 'latest',
+            key: process.env.REACT_APP_API_KEY_PIXABAY
+        }
+        Object.keys(param).map(key => url.searchParams.append(key, param[key]));
+        let API_URL = url.href;
         if (this.cancel) {
             this.cancel.cancel();
         }
@@ -87,7 +91,6 @@ export default class LayoutComponent extends Component {
 
     render() {
         const { query, loading, limit } = this.state;
-        console.log(this.state.page);
         const limitData = [5, 10, 25, 50];
         return (
             <div className="container">
@@ -114,7 +117,7 @@ export default class LayoutComponent extends Component {
                 {this.renderDataResult()}
 
                 {/* Pagination */}
-                <Pagination totalData={80} limitPerPage={limit} paginate={this.paginate} />
+                <Pagination totalData={80} limitPerPage={limit} paginate={this.paginate} activePage={this.state.page} />
             </div>
         )
     }
